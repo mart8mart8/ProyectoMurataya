@@ -1,23 +1,27 @@
 package com.murataya.proyecto;
 
-        import android.location.Location;
-        import android.location.LocationListener;
-        import android.support.v4.app.FragmentActivity;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.ImageButton;
-        import android.widget.Toast;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.api.GoogleApiClient;
-        import com.google.android.gms.location.LocationServices;
-        import com.google.android.gms.maps.CameraUpdateFactory;
-        import com.google.android.gms.maps.GoogleMap;
-        import com.google.android.gms.maps.OnMapReadyCallback;
-        import com.google.android.gms.maps.SupportMapFragment;
-        import com.google.android.gms.maps.model.LatLng;
-        import com.google.android.gms.maps.model.Marker;
-        import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -25,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerDragListener,
         GoogleMap.OnMapLongClickListener,
-        View.OnClickListener{
+        View.OnClickListener {
 
     //Our Map
     private GoogleMap mMap;
@@ -46,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -60,9 +64,9 @@ public class MapsActivity extends FragmentActivity implements
                 .build();
 
         //Initializing views and adding onclick listeners
-        buttonSave = (ImageButton) findViewById(R.id.buttonSave);
-        buttonCurrent = (ImageButton) findViewById(R.id.buttonCurrent);
-        buttonView = (ImageButton) findViewById(R.id.buttonView);
+        buttonSave = findViewById(R.id.buttonSave);
+        buttonCurrent = findViewById(R.id.buttonCurrent);
+        buttonView = findViewById(R.id.buttonView);
         buttonSave.setOnClickListener(this);
         buttonCurrent.setOnClickListener(this);
         buttonView.setOnClickListener(this);
@@ -84,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements
     private void getCurrentLocation() {
         mMap.clear();
         //Creating a location object
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        @SuppressLint("MissingPermission") Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (location != null) {
             //Getting longitude and latitude
             longitude = location.getLongitude();
